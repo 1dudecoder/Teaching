@@ -3,7 +3,15 @@ import "./App.css";
 
 function App() {
   const [data, setData] = useState("");
-  const [ans,setAns] = useState("");
+  const [ans, setAns] = useState("");
+
+  function hanleEnter(e) {
+    if (e.key == "Enter") {
+      let ans = eval(data);
+      setData("");
+      setAns(ans);
+    }
+  }
 
   return (
     <div className="App">
@@ -13,9 +21,20 @@ function App() {
           type="text"
           value={data}
           onChange={(e) => {
-            let data = e.target.value;
-            let newdata = data.split("");
+            let val = e.target.value;
+            let flag = false;
+            var letters = /^[A-Za-z]+$/;
+            let arr = val.split("");
+            arr.forEach((item) => {
+              if (letters.test(item)) {
+                flag = true;
+              }
+            });
+            if (flag == false) {
+              setData(val);
+            }
           }}
+          onKeyPress={hanleEnter}
         />
         <input type="text" value={ans} />
       </div>
@@ -37,7 +56,7 @@ function App() {
             className="bt"
             onClick={() => {
               setData((prev) => {
-                return prev + " % ";
+                return prev + "%";
               });
             }}
           >
@@ -47,7 +66,7 @@ function App() {
             className="bt"
             onClick={() => {
               setData((prev) => {
-                return prev + " / ";
+                return prev + "/";
               });
             }}
           >
@@ -57,7 +76,7 @@ function App() {
             className="bt"
             onClick={() => {
               setData((prev) => {
-                return prev + " X ";
+                return prev + "*";
               });
             }}
           >
@@ -99,7 +118,7 @@ function App() {
             className="bt"
             onClick={() => {
               setData((prev) => {
-                return prev + " + ";
+                return prev + "+";
               });
             }}
           >
@@ -141,7 +160,7 @@ function App() {
             className="bt"
             onClick={() => {
               setData((prev) => {
-                return prev + " - ";
+                return prev + "-";
               });
             }}
           >
@@ -179,10 +198,15 @@ function App() {
           >
             9
           </button>
-          <button className="bt" onClick={()=>{
-            setData('');
-            setAns('');
-          }}>D</button>
+          <button
+            className="bt"
+            onClick={() => {
+              setData("");
+              setAns("");
+            }}
+          >
+            D
+          </button>
         </div>
         <div className="inner-div">
           <button
@@ -208,15 +232,7 @@ function App() {
           <button
             className="bt"
             onClick={() => {
-              console.log("data", data);
-              let newdata = data.split(" ");
-              console.log(newdata);
-              let ans = Number.parseInt(newdata[0]);
-              for (let i = 1; i < newdata.length; i++) {
-                if (newdata[i] == "+") {
-                  ans +=  Number.parseInt(newdata[i+1]);
-                }
-              }
+              let ans = eval(data);
               setAns(ans);
             }}
           >
